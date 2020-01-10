@@ -1,0 +1,37 @@
+version: '3.1'
+services:
+  mongo:
+    image: mongo:4.0
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: blooob
+    ports:
+      - "27017:27017"
+    volumes:
+      - {PROJECT-PATH}/db-data:/data/db:rw
+    networks:
+      db_net:
+        aliases:
+              - mongo
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: blooob
+      ME_CONFIG_BASICAUTH_USERNAME: user
+      ME_CONFIG_BASICAUTH_PASSWORD: user
+    depends_on:
+      - mongo
+    networks:
+      db_net:
+        aliases:
+              - mongo-express
+networks:
+  db_net:
+    external:
+      name: db_net
