@@ -8,4 +8,3 @@ After clone, then run :
 `docker-compose up -d`
 
 The mongo-express service normally runs on port 8081 of the localhost.
-
